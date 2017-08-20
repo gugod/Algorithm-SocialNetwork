@@ -14,7 +14,7 @@ my $algo = Algorithm::SocialNetwork->new(graph => $g);
 is($algo->ClusteringCoefficient('b'),0);
 
 $g->add_edge(qw(a c));
-$algo->graph($g);
+$algo = Algorithm::SocialNetwork->new(graph => $g);
 
 is($algo->ClusteringCoefficient('a'),0.5);
 is($algo->ClusteringCoefficient('b'),0.5);
@@ -22,5 +22,6 @@ is($algo->ClusteringCoefficient('c'),0.5);
 
 $g = Graph->new();
 $g->add_edge('a','b');
-$algo->graph($g);
+$algo = Algorithm::SocialNetwork->new(graph => $g);
+
 is($algo->ClusteringCoefficient('b'),undef);
