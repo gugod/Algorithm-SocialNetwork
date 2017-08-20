@@ -15,6 +15,7 @@ is($algo->GraphCentrality('a'), 1/2);
 
 $g = Graph->new(undirected => 1);
 $g->add_edges(@input);
-$algo->graph($g);
+$algo = Algorithm::SocialNetwork->new(graph => $g);
+
 is($algo->GraphCentrality('b'), 1);
 is($algo->GraphCentrality('a'), 1/2);
