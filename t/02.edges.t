@@ -16,11 +16,11 @@ my @input = ([qw(a b)],[qw(b c)],[qw(b d)],[qw(c d)]);
 $g->add_edges(@input);
 
 my $algo = Algorithm::SocialNetwork->new(graph => $g);
-my @edges  = $algo->edges qw(a c d);
+my @edges  = $algo->edges( qw(a c d) );
 my @wanted = ([qw(c d)]);
 ok eq_array(\@edges,\@wanted);
 
-@edges  = mysort $algo->edges qw(a b c);
+@edges  = mysort $algo->edges(qw(a b c));
 @wanted = mysort ([qw(a b)],[qw(b c)]);
 ok eq_array(\@edges,\@wanted);
 
