@@ -1,14 +1,22 @@
 package Algorithm::SocialNetwork;
-use Spiffy -Base;
-use Quantum::Superpositions;
 our $VERSION = '0.07';
 
-field graph => {},
-    -init => 'Graph->new()';
+use Moose;
+use Quantum::Superpositions;
+use Graph;
+
+has graph => (
+    is => "ro",
+    isa => "Graph",
+    default => sub {
+        Graph->new()
+    }
+);
 
 ### negative value doesn't make sense for Bc
 ### Un-normlized result.
 sub BetweenessCentrality {
+    my $self = shift;
     my @V  = $self->graph->vertices;
     my %CB; @CB{@V}=map{0}@V;
     for my $s (@V) {
@@ -44,6 +52,7 @@ sub BetweenessCentrality {
 }
 
 sub ClusteringCoefficient {
+    my $self = shift;
     my $vertex = shift;
     my @kv = $self->graph->neighbors($vertex);
     return unless @kv > 1;
@@ -52,6 +61,7 @@ sub ClusteringCoefficient {
 }
 
 sub WeightedClusteringCoefficient {
+    my $self = shift;
     my $vertex = shift;
     my @kv = $self->graph->neighbors($vertex);
     return unless @kv > 1;
@@ -63,6 +73,7 @@ sub WeightedClusteringCoefficient {
 }
 
 sub ClosenessCentrality {
+    my $self = shift;
     my $vertex = shift;
     my $sp = $self->graph->SPT_Dijkstra(first_root => $vertex);
     my $s = 0;
@@ -75,6 +86,7 @@ sub ClosenessCentrality {
 *DistanceCentrality = \&ClosenessCentrality;
 
 sub GraphCentrality {
+    my $self = shift;
     my $vertex = shift;
     my $sp = $self->graph->SPT_Dijkstra(first_root => $vertex);
     my $s = -1;
@@ -87,6 +99,7 @@ sub GraphCentrality {
 
 ### edges between given nodes.
 sub edges {
+    my $self = shift;
     my @nodes = @_;
     my @edges = grep {
         all(@$_) eq any(@nodes)
